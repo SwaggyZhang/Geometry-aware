@@ -1,7 +1,8 @@
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
 from transformers import BertTokenizer
+
 maxlength = 40
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -57,9 +58,6 @@ class FewShotModel(nn.Module):
                 label = label.to(device)
                 label_embs = self.encoder(label)
             instance_embs = self.encoder(x)  # vector from bert
-            # num_inst = instance_embs.shape[0]
-            # inst_size = instance_embs.shape  # shape of tensor (batch_size, max_length, word_dim)
-            # split support query set for few-shot data
             support_idx, query_idx = self.split_instances(x)
 
             if self.training:
