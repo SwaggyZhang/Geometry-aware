@@ -6,6 +6,8 @@
 We spilt the whole dataset into base classes and novel classes. And the base class dataset is 
 divided into **base_train**, **base_val** and **base_test** subsets.
 
+Base_train, base_val and base_test have the same categories. The samples in **base_val** are
+used for incremental sessions.
 ### The first session
 We use the **base_train** file to construct the first session. In order to guarantee the model having
 the ability to deal with tasks in few-shot scenarios, we utilize the episodic paradigm to train
