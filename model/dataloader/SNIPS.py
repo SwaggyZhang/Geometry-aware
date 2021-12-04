@@ -1,11 +1,9 @@
-import torch
 import os.path as osp
 
 from torch.utils.data import Dataset
 from tqdm import tqdm
-
 from transformers import BertTokenizer
-import numpy as np
+
 # TODO: 修改数据集为OOS
 THIS_PATH = osp.dirname(__file__)  # 返回当前路径
 ROOT_PATH = osp.abspath(osp.join(THIS_PATH, '..', '..'))
@@ -33,7 +31,7 @@ class OOS(Dataset):
         self.max_length = max_length
 # 读CSV文件
 
-    def parse_csv(self, csv_path, setname):
+    def parse_csv(self, csv_path, setname):  # 读所有的数据
         lines = [x.strip() for x in open(csv_path, 'r', encoding='utf-8').readlines()]
 
         data = []
@@ -46,7 +44,6 @@ class OOS(Dataset):
         for l in tqdm(lines, ncols=64):
             # wnid为类别名，sentence为句子
             wnid, sentence = l.split('\t')
-            #sentence = sentence.split(' ')
 
             if wnid not in self.wnids:
                 self.wnids.append(wnid)
