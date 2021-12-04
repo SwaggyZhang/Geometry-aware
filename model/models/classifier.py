@@ -1,9 +1,10 @@
 import torch
 import torch.nn as nn
-import numpy as np
-from model.utils import euclidean_metric
 import torch.nn.functional as F
-    
+
+from model.utils import euclidean_metric
+
+
 class Classifier(nn.Module):
 
     def __init__(self, args):
@@ -24,7 +25,11 @@ class Classifier(nn.Module):
         elif args.backbone_class == 'WRN':
             hdim = 640
             from model.networks.WRN28 import Wide_ResNet
-            self.encoder = Wide_ResNet(28, 10, 0.5)                        
+            self.encoder = Wide_ResNet(28, 10, 0.5)
+        elif args.backbone_class == 'BERT':
+            from model.networks.BertEncoder import BERTEncoder
+            self.encoder = BERTEncoder()
+            hdim = 768
         else:
             raise ValueError('')
 
