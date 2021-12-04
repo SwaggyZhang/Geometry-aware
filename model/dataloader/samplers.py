@@ -96,7 +96,6 @@ class InSetSampler():
 
 
 class IncreSampler:
-    # TODO: 删除已经抽取过的类别
     def __init__(self, label, n_batch, n_cls, n_per):
         self.n_batch = n_batch
         self.n_cls = n_cls
@@ -118,10 +117,13 @@ class IncreSampler:
     def __iter__(self):
         for i_batch in range(self.n_batch):
             batch = []
-            classes = torch.randperm(len(self.m_ind))[:self.n_cls]  # 返回一个0到len(self.m_ind)的数组，取前self.n_cls个
-            for c in classes:
+            # 返回一个0到len(self.m_ind)的数组，取前self.n_cls个或者m_ind个
+            cur_classes = torch.randperm(len(self.m_ind))[:min(self.n_cls, len(self.m_ind))]
+            cur_classes = torch.sort(cur_classes, descending=True)[0]
+            for c in cur_classes:
                 l = self.m_ind[c]
                 pos = torch.randperm(len(l))[:self.n_per]
                 batch.append(l[pos])
+                del l  # 从所有类别中删除取过的
             batch = torch.stack(batch).t().reshape(-1)
             yield batch
