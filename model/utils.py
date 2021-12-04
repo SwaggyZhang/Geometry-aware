@@ -1,10 +1,11 @@
+import argparse
 import os
+import pprint
 import shutil
 import time
-import pprint
-import torch
-import argparse
+
 import numpy as np
+import torch
 
 
 def one_hot(indices, depth):
@@ -161,7 +162,7 @@ def get_command_line_parser():
     parser.add_argument('--num_eval_episodes', type=int, default=300)
     parser.add_argument('--model_class', type=str, default='ProtoNet',
                         choices=['MatchNet', 'ProtoNet', 'BILSTM', 'DeepSet', 'GCN', 'FEAT', 'FEATSTAR', 'SemiFEAT',
-                                 'SemiProtoFEAT', 'FEATCONCAT'])  # None for MatchNet or ProtoNet
+                                 'SemiProtoFEAT', 'FEATCONCAT','Geo'])  # None for MatchNet or ProtoNet
     parser.add_argument('--use_euclidean', action='store_true', default=False)
     parser.add_argument('--backbone_class', type=str, default='BERT',
                         choices=['ConvNet', 'Res12', 'Res18', 'WRN', 'BERT', 'BERTLabel'])
